@@ -1,0 +1,51 @@
+debug: false
+logging:
+    level:
+        org:
+            hibernate: INFO
+            springframework:
+                web:
+                    filter:
+                        CommonsRequestLoggingFilter: INFO
+        root: INFO
+server:
+    port: 8081
+    servlet:
+        session:
+            timeout: 64800m
+    session:
+        timeout: 3888000
+spring:
+    data:
+        rest:
+            basePath: /api
+            default-page-size: 10
+            max-page-size: 10000
+            returnBodyOnCreate: true
+            returnBodyOnUpdate: true
+    datasource:
+        password: ${DATABASE_PASSWORD:0b5SX9762dD&40Cbe}
+        url: ${DATABASE_URL:jdbc:postgresql://90.156.219.172:5432/PostgreSQL-1867}
+        username: ${DATABASE_USER:tikhonovaf}
+    jpa:
+        hibernate:
+            jdbc:
+                batch_versioned_data: true
+        properties:
+            hibernate:
+                format_sql: true
+                jdbc:
+                    batch_size: 20
+                order_inserts: true
+                order_updates: true
+    mvc:
+        pathmatch:
+            matching-strategy: ant-path-matcher
+    servlet:
+        multipart:
+            max-file-size: 150MB
+            max-request-size: 150MB
+    kafka:
+        producer:
+            key-serializer: org.apache.kafka.common.serialization.StringSerializer
+            value-serializer: org.springframework.kafka.support.serializer.JsonSerializer

@@ -1,0 +1,85 @@
+openapi: "3.0.2"
+info:
+  title: "osaop backend"
+  version: "1.00"
+servers:
+  - url: http://localhost:8085/api
+paths:
+  /login:
+    post:
+      summary: Вход в систему
+      operationId: login
+      tags:
+        - LOGIN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginDto"
+      responses:
+        200:
+          description: Пустой ответ
+
+  /logout:
+    post:
+      summary: Выход из системы
+      operationId: logout
+      tags:
+        - LOGIN
+      responses:
+        200:
+          description: Пустой ответ
+components:
+  schemas:
+    rolesDto:
+      type: array
+      description: Список ролей
+      items:
+        $ref: "#/components/schemas/refRecordDto"
+    refRecordDto:
+      type: object
+      description: Строка справочника
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Идентификатор
+          example: 1
+        name:
+          type: string
+          description: Наименование
+          example: Наименование 1
+    refRecordInDto:
+      type: object
+      description: Строка справочника
+      properties:
+        name:
+          type: string
+          description: Наименование
+          example: Наименование 1
+    roleFullViewDto:
+      type: object
+      description: Данные по роли
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Идентификатор записи
+          example: 1
+        name:
+          type: string
+          description: Наименование роли
+          example: ADMIN
+    loginDto:
+      type: object
+      description: Данные для входа в систему
+      properties:
+        username:
+          type: string
+          description: Имя пользователя
+          example: ADMIN
+        password:
+          type: string
+          description: Наименование
+          example: ADMIN
+

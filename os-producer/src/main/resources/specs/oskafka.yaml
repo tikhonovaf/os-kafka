@@ -1,0 +1,266 @@
+openapi: "3.0.2"
+info:
+  title: "osaop backend"
+  version: "1.00"
+servers:
+  - url: http://localhost:8085/api
+paths:
+  /login:
+    post:
+      summary: Вход в систему
+      operationId: login
+      tags:
+        - LOGIN
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/loginDto"
+      responses:
+        200:
+          description: Пустой ответ
+
+  /logout:
+    post:
+      summary: Выход из системы
+      operationId: logout
+      tags:
+        - LOGIN
+      responses:
+        200:
+          description: Пустой ответ
+  /metric/metricTypes:
+    get:
+      summary: Выборка типов метрик
+      operationId: getMetricTypes
+      tags:
+        - METRIC
+      responses:
+        200:
+          description: Список типов метрик
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/metricTypesDto"
+    post:
+      summary: Добавление типа метрик
+      operationId: addMetricType
+      tags:
+        - METRIC
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/refRecordInDto"
+      responses:
+        200:
+          description: Тип метрики
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/refRecordDto"
+  /metric/metricTypes/{id}:
+    get:
+      summary: Выборка типа метрики
+      operationId: getMetricType
+      tags:
+        - METRIC
+      parameters:
+        - name: id
+          description: Идентификатор
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Тип метрики
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/refRecordDto"
+    patch:
+      summary: Изменение типа метрик
+      operationId: modifyMetricType
+      tags:
+        - METRIC
+      parameters:
+        - name: id
+          description: Идентификатор
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/refRecordInDto"
+      responses:
+        200:
+          description: Тип метрики
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/refRecordDto"
+  /metric/vmMetrics:
+    get:
+      summary: Выборка метрик
+      operationId: getVmMetrics
+      tags:
+        - METRIC
+      responses:
+        200:
+          description: Список метрик
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vmMetricsViewDto"
+    post:
+      summary: Добавление метрики
+      operationId: addVmMetric
+      tags:
+        - METRIC
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/vmMetricInDto"
+      responses:
+        200:
+          description: Метрика
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vmMetricViewDto"
+  /metric/vmMetrics/search:
+    get:
+      summary: Выборка метрики по ВМ
+      operationId: getVmMetricForVm
+      tags:
+        - METRIC
+      parameters:
+        - name: vmName
+          description: Наименование ВМ
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Список метрик
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/vmMetricsViewDto"
+components:
+  schemas:
+    rolesDto:
+      type: array
+      description: Список ролей
+      items:
+        $ref: "#/components/schemas/refRecordDto"
+    refRecordDto:
+      type: object
+      description: Строка справочника
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Идентификатор
+          example: 1
+        name:
+          type: string
+          description: Наименование
+          example: Наименование 1
+    refRecordInDto:
+      type: object
+      description: Строка справочника
+      properties:
+        name:
+          type: string
+          description: Наименование
+          example: Наименование 1
+    roleFullViewDto:
+      type: object
+      description: Данные по роли
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Идентификатор записи
+          example: 1
+        name:
+          type: string
+          description: Наименование роли
+          example: ADMIN
+    loginDto:
+      type: object
+      description: Данные для входа в систему
+      properties:
+        username:
+          type: string
+          description: Имя пользователя
+          example: ADMIN
+        password:
+          type: string
+          description: Наименование
+          example: ADMIN
+    metricTypesDto:
+      type: array
+      description: Список типов метрик
+      items:
+        $ref: "#/components/schemas/refRecordDto"
+    vmMetricsViewDto:
+      type: array
+      description: Список метрик
+      items:
+        $ref: "#/components/schemas/vmMetricViewDto"
+    vmMetricViewDto:
+      type: object
+      description: Данные о метрике
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Идентификатор
+          example: 1
+        vmName:
+          type: string
+          description: Наименование Виртуальной машины
+          example: Наименование 1
+        metricTypeId:
+          type: integer
+          format: int64
+          description: Идентификатор типа метрики
+          example: 1
+        metricTypeName:
+          type: string
+          description: Наименование типа метрики
+          example: Птица
+        value:
+          type: integer
+          format: int64
+          description: Значение метрики
+          example: 120
+    vmMetricInDto:
+      type: object
+      description: Данные о метрике
+      properties:
+        vmName:
+          type: string
+          description: Наименование Виртуальной машины
+          example: Наименование 1
+        metricTypeId:
+          type: integer
+          format: int64
+          description: Идентификатор типа метрики
+          example: 1
+        value:
+          type: integer
+          format: int64
+          description: Значение метрики
+          example: 120
+
