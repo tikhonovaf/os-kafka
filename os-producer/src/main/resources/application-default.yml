@@ -24,9 +24,9 @@ spring:
             returnBodyOnCreate: true
             returnBodyOnUpdate: true
     datasource:
-        password: ${DATABASE_PASSWORD:0b5SX9762dD&40Cbe}
-        url: ${DATABASE_URL:jdbc:postgresql://90.156.219.172:5432/PostgreSQL-1867}
-        username: ${DATABASE_USER:tikhonovaf}
+        url: ${DATABASE_URL:jdbc:postgresql://192.168.222.17:5432/straf}
+        username: ${DATABASE_USER:postgres}
+        password: ${DATABASE_PASSWORD:postgres}
     jpa:
         hibernate:
             jdbc:
